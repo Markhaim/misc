@@ -1,0 +1,24 @@
+cRule=Table[i->{Cos[Pi/2-(2Pi)/10 i],Sin[Pi/2-(2Pi)/10 i]},{i,0,9}];
+
+Clear@DrawPi;DrawPi[order_]:=Block[{lst,points},
+	lst=RealDigits[Pi,10,order][[1]];
+	points={{0,0}}~Join~Accumulate[lst/.cRule];
+	Labeled[
+		Show[{
+			Graphics[
+				Table[
+					{
+					ColorData["Rainbow"][Mod[lst[[i]]-4,10]/10]
+					,Line[{points[[i]],points[[i+1]]}]
+					}
+				,{i,1,Length[lst]}
+				]
+			]
+			,Graphics[{PointSize[Large],Point[{0,0}]}]
+		}
+		,ImageSize->1000
+		]
+	,order,Top]
+	]
+	
+DrawPi[10^3]
